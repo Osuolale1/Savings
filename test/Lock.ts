@@ -5,29 +5,28 @@ import {
 import { anyValue } from "@nomicfoundation/hardhat-chai-matchers/withArgs";
 import { expect } from "chai";
 import { ethers } from "hardhat";
+import { SaveEther } from "../typechain-types";
 
 describe("SaveEther", function () {
 
   async function deploySaveEther() {
 
-    const ONE_YEAR_IN_SECS = 365 * 24 * 60 * 60;
-    const ONE_GWEI = 1_000_000_000;
+    //const ONE_YEAR_IN_SECS = 365 * 24 * 60 * 60;
+    //const ONE_GWEI = 1_000_000_000;
 
-    const lockedAmount = ONE_GWEI;
-    const unlockTime = (await time.latest()) + ONE_YEAR_IN_SECS;
 
     // Contracts are deployed using the first signer/account by default
     const [owner, otherAccount] = await ethers.getSigners();
 
     const SaveEther = await ethers.getContractFactory("SaveEther");
-    const  = await SaveEther.deploy(unlockTime, { value: lockedAmount });
+    const  saveEther = await SaveEther.deploy(SaveEther, { value: savings });
 
-    return { lock, unlockTime, lockedAmount, owner, otherAccount };
+    return { saveEther, owner, otherAccount };
   }
 
   describe("Deployment", function () {
     it("Should set the right unlockTime", async function () {
-      const { lock, unlockTime } = await loadFixture(deployOneYearLockFixture);
+      const { saveEther, deposit } = await loadFixture(deploySaveEther);
 
       expect(await lock.unlockTime()).to.equal(unlockTime);
     });
